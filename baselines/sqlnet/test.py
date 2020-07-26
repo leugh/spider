@@ -31,9 +31,14 @@ if __name__ == '__main__':
         BATCH_SIZE=64
     TEST_ENTRY=(True, True, True)  # (AGG, SEL, COND)
 
-    sql_data, table_data, val_sql_data, val_table_data, \
-            test_sql_data, test_table_data, schemas,\
-            TRAIN_DB, DEV_DB, TEST_DB = load_dataset(args.dataset, use_small=USE_SMALL)
+    TEST_PATH = os.path.join(args.dataset, "dev.json")
+
+    test_sql_data, test_table_data = load_data('data/test_tok.jsonl',
+                                               'data/test_tok.tables.jsonl', use_small=False)
+    schemas = {}
+    for tab in test_table_data:
+        schemas[tab['db_id']] = tab
+    TEST_DB = 'data/test.db'
 
     word_emb = load_word_emb('glove/glove.6B.50d.txt', load_used=args.train_emb, use_small=USE_SMALL)
 

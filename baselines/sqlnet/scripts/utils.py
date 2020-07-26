@@ -5,6 +5,37 @@ import numpy as np
 import os
 #from lib.dbengine import DBEngine
 
+def load_data(sql_paths, table_paths, use_small=False):
+    if not isinstance(sql_paths, list):
+        sql_paths = (sql_paths, )
+    if not isinstance(table_paths, list):
+        table_paths = (table_paths, )
+    sql_data = []
+    table_data = {}
+
+    max_col_num = 0
+    for SQL_PATH in sql_paths:
+        print("Loading data from %s" % SQL_PATH)
+        with open(SQL_PATH) as inf:
+            for idx, line in enumerate(inf):
+                if use_small and idx >= 1000:
+                    break
+                sql = json.loads(line.strip())
+                sql_data.append(sql)
+
+    for TABLE_PATH in table_paths:
+        print("Loading data from %s" % TABLE_PATH)
+        with open(TABLE_PATH) as inf:
+            for line in inf:
+                tab = json.loads(line.strip())
+                table_data[tab[u'id']] = tab
+
+    for sql in sql_data:
+        assert sql[u'table_id'] in table_data
+
+    return sql_data, table_data
+
+
 def lower_keys(x):
     if isinstance(x, list):
         return [lower_keys(v) for v in x]
