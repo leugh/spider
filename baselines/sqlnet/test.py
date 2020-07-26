@@ -33,8 +33,8 @@ if __name__ == '__main__':
 
     TEST_PATH = os.path.join(args.dataset, "dev.json")
 
-    test_sql_data, test_table_data = load_data('data/test_tok.jsonl',
-                                               'data/test_tok.tables.jsonl', use_small=False)
+    test_sql_data, test_table_data = load_data('data/data/test_tok.jsonl',
+                                               'data/data/test_tok.tables.jsonl', use_small=False)
     schemas = {}
     for tab in test_table_data:
         schemas[tab['db_id']] = tab
