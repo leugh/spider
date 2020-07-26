@@ -35,9 +35,7 @@ if __name__ == '__main__':
 
     test_sql_data, test_table_data = load_data('data/data/test_tok.jsonl',
                                                'data/data/test_tok.tables.jsonl', use_small=False)
-    schemas = {}
-    for tab in test_table_data:
-        schemas[tab['db_id']] = tab
+
     TEST_DB = 'data/test.db'
 
     word_emb = load_word_emb('glove/glove.6B.50d.txt', load_used=args.train_emb, use_small=USE_SMALL)
@@ -53,4 +51,3 @@ if __name__ == '__main__':
     print "Loading from sel model..."
     model.order_pred.load_state_dict(torch.load("saved_models/order_models.dump"))
 
-    print_results(model, BATCH_SIZE, test_sql_data, test_table_data, args.output, schemas, TEST_ENTRY)
